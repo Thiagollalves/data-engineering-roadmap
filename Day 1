@@ -1,4 +1,87 @@
 day01-data-modeling/
 │
 ├── schema.sql
+-- FACT TABLE
+CREATE TABLE sales_fact (
+    order_id INT,
+    product_id INT,
+    customer_id INT,
+    date_id INT,
+    revenue FLOAT
+);
+
+-- DIMENSIONS
+CREATE TABLE product_dim (
+    product_id INT,
+    product_name VARCHAR(100),
+    category VARCHAR(50)
+);
+
+CREATE TABLE customer_dim (
+    customer_id INT,
+    customer_name VARCHAR(100),
+    city VARCHAR(50)
+);
+
+CREATE TABLE date_dim (
+    date_id INT,
+    date DATE,
+    month INT,
+    year INT
+);
+SELECT p.category, SUM(f.revenue)
+FROM sales_fact f
+JOIN product_dim p ON f.product_id = p.product_id
+GROUP BY p.category;
+
+
 ├── README.md
+# 📦 Day 01 — Data Modeling (Star Schema)
+
+## 🎯 Objective
+
+Design a simple Data Warehouse using Star Schema for analytical queries.
+
+## 🧠 Concepts Covered
+
+* Data Modeling
+* OLTP vs OLAP
+* Star Schema
+* Snowflake Schema
+
+## 🏗️ Architecture
+
+* Fact Table: sales
+* Dimensions:
+
+  * product
+  * customer
+  * date
+
+## ⚙️ Why Star Schema?
+
+I chose Star Schema because:
+
+* Simpler queries
+* Better performance for analytics
+
+## ⚖️ Trade-offs
+
+| Pros               | Cons            |
+| ------------------ | --------------- |
+| Fast queries       | Data redundancy |
+| Easy to understand | Less normalized |
+
+## 📊 Example Query
+
+```sql
+SELECT p.category, SUM(f.revenue)
+FROM sales_fact f
+JOIN product_dim p ON f.product_id = p.product_id
+GROUP BY p.category;
+```
+
+## 💡 Key Learning
+
+Understanding how data modeling impacts performance and analytics.
+
